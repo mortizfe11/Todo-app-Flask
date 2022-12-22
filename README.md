@@ -185,5 +185,4 @@ pip install Flask
 ```
 flask run
 ```
-Debe salir un `Hello, world` en el navegador:
-![Hello, world](./docs/img/hello%2C%20world.png "Hello, world en Flask")
+Debe salir un `Hello, world` en el navegador
