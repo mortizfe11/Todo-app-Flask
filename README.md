@@ -101,3 +101,89 @@ RGB [%]: 4.7–50.2–23.1
 - Título principal o título en logo: [Tomorrow](https://fonts.google.com/specimen/Tomorrow) - 400
 - Subtítulo en logo o h2: [Poppins Medium](https://fonts.google.com/specimen/Poppins?query=poppins) - 500
 - Texto: [Poppings Regular](https://fonts.google.com/specimen/Poppins?query=poppins) - 400
+
+
+
+Podemos ver las versiones disponibles de Python:
+```
+pyenv install --list
+```
+Para ver las versiones instaladas:
+```
+pyenv versions
+```
+Instalamos la versión estble de `Python 3.10.9`:
+```
+pyenv install 3.10.9
+```
+Comprobamos versiones instaladas de Python con pyenv:
+```
+pyenv versions
+```
+Creamos un entorno virtual con la versión de Python que queramos:
+```
+pyenv virtualenv 3.10.9 venv_todo_app
+```
+Ver entornos creados:
+```
+pyenv virtualenvs
+```
+**Activar entorno**
+```
+pyenv activate venv_todo_app
+```
+**Desactivar entorno**
+```
+pyenv deactivate
+```
+**Nota:** 
+- Si aparece el error, [seguir estos pasos](https://github.com/pyenv/pyenv-virtualenv#installation).
+- Si no encuentra `pyenv`, [revisar este hilo](https://github.com/pyenv/pyenv-installer/issues/112). 
+- [Cambiar ExecutionPolicy en Windows](https://www.alexmedina.net/habilitar-la-ejecucion-de-scripts-para-powershell/)
+
+    - Abrir PowerShell como administrador
+    - Ejecutar el siguiente comando:
+    ```
+    Get-ExecutionPolicy
+    ```
+    Si sale Restricted o RemoteSigned, cambiar a Unrestricted para la instalación:
+    ```
+    Set-ExecutionPolicy Unrestricted
+    ```
+    Aceptamos cambio con `S` o `s`.
+    **Instalad pyenv con el siguiente comando:**
+    ```
+    yenv-win/master/pyenv-win/install-pyenv-win.ps1" -OutFile "./install-pyenv-win.ps1"; &"./install-pyenv-win.ps1"
+    ```
+    **Volved a cambiar el ExecutionPolicy a Restricted:**
+    ```
+    Set-ExecutionPolicy Restricted
+    ```
+    Aceptamos cambio con `S` o `s`.
+    ```
+    Get-ExecutionPolicy
+    ```
+    Debe salir `Restricted`.
+
+## Flask
+- Abrimos venv con `pyenv activate venv_todo_app` o `Scripts\activate`
+- Instalamos Flask:
+```
+pip install Flask
+```
+- Creamos el archivo `app.py`:
+```python
+    from flask import Flask
+
+    app = Flask(__name__)
+
+    @app.route("/")
+    def hello():
+        return "Hello, World!"
+```
+- Guardar. Y para ejecutar la app de Flask (desde la misma ubicación de `app.py`):
+```
+flask run
+```
+Debe salir un `Hello, world` en el navegador:
+![Hello, world](./docs/img/hello%2C%20world.png "Hello, world en Flask")
