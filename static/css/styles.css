@@ -1,8 +1,64 @@
-body{
-    background: steelblue;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,800;1,900&family=Tomorrow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root{
+    --clr-yellow-primary: #FBC55C;
+    --clr-yellow-secondary:#F4A64E;
+    --clr-yellow-claro: #FFD29F;
+    --clr-yellow-oscuro: #B16510;
+    --clr-blue-primary: #2A6EF2;
+    --clr-blue-secondary: #4452A7;
+    --clr-blue-claro: #919BD8;
+    --clr-blue-oscuro: #19267A;
+    --clr-green-primary: #38AF68;
+    --clr-turquoise: #0fbdbd;
+    --clr-blue: #0875d8;
+    --font-primary: 'Poppins', sans-serif;
+    --font-secundary: 'Tomorrow', sans-serif;
 }
+.bg-yellow-primary{ background: var(--clr-yellow-primary);}
+.bg-yellow-secondary{ background: var(--clr-yellow-secondary);}
+.bg-yellow-claro{ background: var(--clr-yellow-claro);}
+.bg-yellow-oscuro{ background: var(--clr-yellow-oscuro);}
+.bg-blue-primary{ background: var(--clr-blue-primary);}
+.bg-blue-primary{ background: var(--clr-blue-primary);}
+
+.px-7{padding: 0 7vw;}
+.py-7{padding: 7vh 0;}
+
 
 body, html{
     margin: 0;
     padding: 0;
+    background-color: white;
+}
+
+h1{ font-size: 2.5rem;}
+h2{ font-size: 1.25rem;}
+h3, h4, h5, h6 { 
+    font-size: 1rem; 
+    color: var(--clr-blue-primary);
+}
+h3 {font-weight: 700;}
+
+h1,h2,h3,h4,h5,h6 {font-family: var(--font-primary);}
+
+/**** HOME ****/
+#home h1{
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+#home { 
+    color:white;
+    background: linear-gradient(to right, var(--clr-turquoise), var(--clr-blue));
+}
+#img-home{width: 125px;}
+.btn-home{color: var(--clr-blue-primary);}
+
+#home .triangle{
+    width: 100%;
+    height: 150px;
+    background: white;
+	-webkit-clip-path: polygon(0 0, 0 100%, 100% 100%);
+	clip-path: polygon(0 0, 0 100%, 100% 100%);
 }
