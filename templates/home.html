@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block home %}
+<div class="container py-3">
+    <section id="home" class="border-bottom text-center">
+        <div class="col-5 d-inline-block">
+            <div class="row">
+                <img class="bi" src="{{url_for('static', filename='/imgs/logos/logo-circular-no-bg.png')}}" width="50" alt="logo">
+                <h1>Welcome to Notas</h1>
+                <h2>App de notas</h2>
+            </div>
+            <div class="row">
+                <p>Escribe todo lo que tienes que hacer antes de olvidarlo</p>
+            </div>
+            <div class="row">
+                <button class="btn btn-primary mx-auto">Empezar</button>
+            </div>
+        </div>
+        <div class="col-5 d-inline-block">
+            <h3>Lista de la compra:</h3>
+            <ul class="px-0 list-unstyled">
+                <li>Café</li>
+                <li>Café</li>
+                <li>Café</li>
+            </ul>
+        </div>
+    </section>
+
+    {% include 'about.html' %}
+
+    {% include 'info.html' %}
+
+</div>
+{% endblock %}
+
