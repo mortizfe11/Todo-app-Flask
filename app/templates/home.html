@@ -1,6 +1,7 @@
 {% block home %}
-    <section id="home" class="row justify-content-center align-items-center">
-        <div class="col-5 d-flex flex-column p-5">
+    <section id="home">
+        <div class="d-flex text-center px-3 align-items-center justify-content-center">
+            <div class="col-5 d-inline-block py-5">
             <div class="row px-7 align-items-center">
                 <img id="img-home" class="d-inline-block" src="{{url_for('static', filename='/imgs/logos/logo500x500-sin-letras.png')}}" alt="logo">
                 <div class="mx-2 text-uppercase text-center">
@@ -8,15 +9,15 @@
                     <h2>Todo App</h2>
                 </div>
             </div>
-            <div class="row p-3 justify-content-center">
-                <p class="text-white text-center">Escribe todo lo que tienes que hacer antes de olvidarlo</p>
+            <div class="row my-5 fs-2 text-white text-center justify-content-center">
+                <p>Escribe todo lo que tienes que hacer antes de olvidarlo</p>
             </div>
-            <div class="row">
-                <button class="btn btn-light mx-auto rounded-pill btn-home px-5">Empezar</button>
+            <div class="row my-3">
+                <button class="btn btn-light mx-auto rounded-pill btn-home px-5" href="#about">Empezar</button>
             </div>
         </div>
-        <div class="col-5 d-flex align-items-center px-3 py-0">
-            <div class="col-7 p-5 post-it bg-yellow-secondary mx-auto">
+        <div class="col-5 d-inline-flex py-3 px-0 justify-content-end">
+            <div class="col-6 post-it bg-yellow-primary py-5 px-5">
                 <h3>Lista de la compra:</h3>
                 <ul class="px-0 list-unstyled">
                     <li>Café</li>
@@ -25,7 +26,8 @@
                 </ul>
             </div>
         </div>
-        <div class="triangle"></div>
+    </div>
+    <div class="triangle"></div>
     </section>
 {% endblock %}
 
