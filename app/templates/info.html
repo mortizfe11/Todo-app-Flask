@@ -3,17 +3,17 @@
     <h2 class="text-primary mt-0 mb-5">¿Qué puedes hacer?</h2>
     <div class="row justify-content-around">
         <div class="col-3 card bg-blueberry rounded-3">
-            <img class="d-inline-block mx-auto my-3" src="https://via.placeholder.com/150?text=pic-1" alt="1">
+            <img class="d-inline-block mx-auto my-3" src="{{ url_for('static', filename='imgs/iconos/instagram500x500.png')}}" alt="instagram">
             <h3 class="my-2">Regístrate</h3>
             <p>Crea tu usuario en unos pocos pasos.</p>
         </div>
         <div class="col-3 card bg-blueberry rounded-3">
-            <img class="d-inline-block mx-auto my-3" src="https://via.placeholder.com/150?text=pic-2" alt="2">
+            <img class="d-inline-block mx-auto my-3" src="{{ url_for('static', filename='imgs/iconos/linkedin500x500.png') }}" alt="linkedin">
             <h3>Crea tus Notas</h3>
             <p>Y léelas cuando quieras.</p>
         </div>
         <div class="col-3 card bg-blueberry rounded-3">
-            <img class="d-inline-block mx-auto my-3" src="https://via.placeholder.com/150?text=pic-3" alt="3">
+            <img class="d-inline-block mx-auto my-3" src="{{ url_for('static', filename='imgs/iconos/github512x512.png') }}" alt="github">
             <h3>Lleva tus notas</h3>
             <p>Disponibles en tu móvil o PC</p>
         </div>
