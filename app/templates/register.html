@@ -1,11 +1,15 @@
-
 {% extends 'base.html' %}
 
 {% block main %}
 <!-- Permitimos login con email y contraseña -->
-<section id="register" class="py-5 d-flex align-items-center">
+<section id="register" class="bg-gradient-blue py-5 d-flex align-items-center">
     <div class="col-4 mx-auto text-white">
         <h2 class="text-center text-white">Registro</h2>
+        {% if error %}
+            <div class="col bg bg-warning p-2 my-2">
+                <p>{{error}}</p>
+            </div>
+        {% endif %}
         <form action="{{ url_for('register') }}" method="post">
             <div class="form-group">
                 <label for="email">Email</label>

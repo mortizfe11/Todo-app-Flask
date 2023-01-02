@@ -1,0 +1,40 @@
+
+{% extends 'base.html' %}
+
+{% block main %}
+<section id="profile" class="bg-gradient-blue py-5 d-flex align-items-center">
+    <div class="container col-4 mx-auto">
+        <h1 class="text-white">Welcome, {{ username }}</h1>
+        <div class="col bg bg-success p-2 my-2">
+            <p class="text-white">{{ msg }}</p>
+        </div>
+        <hr>
+        <h2 class="text-white">My Notes</h2>
+        <div class="row p-2 my-2 text-center">
+            <div class="col-6">
+                <a href="{{ url_for('get_all_todos') }}" class="btn btn-primary">View my notes</a>
+            </div>
+            <div class="col-6">
+                <a href="{{ url_for('create_todo') }}" class="btn btn-success">Create note</a>
+            </div>
+        </div>
+        <hr>
+        <h2 class="text-white">Edit Profile</h2>
+        <div class="row p-2 my-2 text-center">
+            <div class="col-4">
+                <a href="#" class="btn btn-primary">Edit username</a>
+            </div>
+            <div class="col-4">
+                <a href="#" class="btn btn-primary">Edit password</a>
+            </div>
+            <div class="col-4">
+                <a href="#" class="btn btn-primary">Edit email</a>
+            </div>
+        </div>
+        <hr>
+        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Hic voluptate dolores eveniet distinctio molestias commodi at laboriosam esse itaque, modi vitae. Facere laborum sed, in similique quae error ab suscipit.</p>
+        <a class="btn btn-warning" href="{{url_for('logout')}}">Logout</a>
+        
+    </div>
+</section>
+{% endblock %}

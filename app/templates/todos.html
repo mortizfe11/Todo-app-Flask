@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<section class="bg-gradient-blue">
+    {% if todos %}
+        {% for todo in todos %}
+            <div class="col-4 mx-auto">
+                <div class="card post-it my-2">
+                    <div class="card-body">
+                        <h5 class="card-title">Title: {{ todo[0] }}</h5>
+                        <p class="card-text"> Description: {{ todo[1]}}</p>
+                        <p class="card-text"> CurrentDate: {{todo[3]}}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div>No hay todos</div>
+    {% endif %}
+</section>
+
+{% endblock %}

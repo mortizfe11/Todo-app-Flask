@@ -1,13 +1,19 @@
 {% extends 'base.html' %}
 
 {% block main %}
-<section id="login" class="py-5 d-flex align-items-center">
+<section id="login" class="bg-gradient-blue py-5 d-flex align-items-center">
     <div class="col-4 mx-auto">
         <h2 class="text-center">Login</h2>
+        {% if error %}
+            <div class="col bg bg-warning p-2 my-2">
+                <p>{{error}}</p>
+            </div>
+        {% endif %}
+
         <form action="{{ url_for('login')}}" method="post">
             <div class="form-group">
-                <label for="email">Email</label>
-                <input class="form-control" id="email" name="email" type="text" placeholder="Enter Your Email">
+                <label for="username">Username</label>
+                <input class="form-control" id="username" name="username" type="text" placeholder="Enter Your Username">
             </div>
             <div class="form-group">
                 <label for="password">Password</label>

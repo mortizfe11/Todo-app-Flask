@@ -15,12 +15,17 @@
     --font-primary: 'Poppins', sans-serif;
     --font-secundary: 'Tomorrow', sans-serif;
 }
+
+.navbar .nav-link:hover{
+    color: white!important;
+}
+
 .bg-yellow-primary{ background: var(--clr-yellow-primary);}
 .bg-yellow-secondary{ background: var(--clr-yellow-secondary);}
 .bg-yellow-claro{ background: var(--clr-yellow-claro);}
 .bg-yellow-oscuro{ background: var(--clr-yellow-oscuro);}
 .bg-blue-primary{ background: var(--clr-blue-primary);}
-.bg-blue-primary{ background: var(--clr-blue-primary);}
+.bg-blue-secondary{ background: var(--clr-blue-secondary);}
 .bg-blueberry {background: #6470BE;}
 
 .px-7{padding: 0 7vw;}
@@ -72,13 +77,15 @@ h1,h2,h3,h4,h5,h6 {font-family: var(--font-primary);}
     margin-bottom: 0;
 }
 
-#home, #login, #register, #register-thanks { 
+.bg-gradient-blue { 
     color:white;
     background: linear-gradient(to right, var(--clr-turquoise), var(--clr-blue));
+    height: 100vh;
 }
 
-#login, #register, #register-thanks {
-    height: 100vh;
+#home{
+    color:white;
+    background: linear-gradient(to right, var(--clr-turquoise), var(--clr-blue));
 }
 
 #img-home{width: 125px;}

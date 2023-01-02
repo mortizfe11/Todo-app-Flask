@@ -3,11 +3,36 @@ import sqlite3 as sql
 import re
 
 # connect to qa_database.sq (database will be created, if not exist)
-def create_table_if_not_exist(db_name :str, db_table : str):
-    con = sql.connect(db_name)
-    con.execute(f"CREATE TABLE IF NOT EXISTS {db_table} (Id INTEGER PRIMARY KEY AUTOINCREMENT, Email TEXT, Password TEXT, Username TEXT)")
-    con.close()
+def create_table_if_not_exist(db_name :str, tables : list[str]):
+    try:
+        db_table, todos_table = tables
 
+        con = sql.connect(db_name)
+        c = con.cursor()
+        c.execute(f"CREATE TABLE IF NOT EXISTS {db_table} (Id INTEGER PRIMARY KEY AUTOINCREMENT, Email TEXT, Password TEXT, Username TEXT)")
+        #con.commit()
+        #c.execute(f"CREATE TABLE IF NOT EXISTS {todos_table} (Id INTEGER PRIMARY KEY AUTOINCREMENT, Title TEXT, Description TEXT, Done INTEGER, CreateAt DATETIME DEFAULT CURRENT_TIMESTAMP, ModifyAt DATETIME DEFAULT CURRENT_TIMESTAMP, DueDate DATETIME DEFAULT NULL, UserId INTEGER, FOREIGN KEY(UserId) REFERENCE {db_table}(Id))")
+        c.execute("""CREATE TABLE IF NOT EXISTS todos (
+            Id INTEGER PRIMARY KEY AUTOINCREMENT,
+            Title TEXT,
+            Description TEXT,
+            Done INTEGER,
+            CreateAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+            ModifiedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+            DueDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+            UserId INTEGER,
+            FOREIGN KEY(UserId) REFERENCES users(Id)
+            )""")
+
+        #c.execute(f"INSERT INTO {todos_table} (Title, Description, Done, UserId) VALUES ('title11', 'description11', 0, 1)")
+        #c.execute(f"INSERT INTO {todos_table} (Title, Description, Done, UserId) VALUES ('title21', 'description21', 0, 1)")
+        #c.execute(f"INSERT INTO {todos_table} (Title, Description, Done, UserId) VALUES ('title31', 'description31', 0, 1)")
+
+        con.commit()
+    except con.Error as err:
+        return err
+    finally:
+        con.close()
 
 # Register new user
 def register_user(db_name : str, db_table : str, values : list[str, str, str]):
@@ -26,16 +51,17 @@ def register_user(db_name : str, db_table : str, values : list[str, str, str]):
     
     query = f"SELECT * FROM {db_table} WHERE username ='{username}' OR email = '{email}'"# AND password = '{password}' "
     account = send_query_with_response(db_name, query)
-    print(account, username, email, password)
     if account != sql.Error:
         if account:
-            msg = 'El email o username ya existen. Vuelvo a intentarlo.'
+            msg = 'Email o username exist in database. Turn again.'
         elif not re.match(r'[^@]+@[^@]+\.[^@]', email):
             msg = 'Invalid email address'
         elif not re.match(r'[A-Za-z0-9]+', username):
             msg = 'Username must contain only characters and numbers!'
         elif not username or not password or not email:
             msg = 'Please fill out the form!'
+        elif len(password) < 5:
+            msg = 'Password must have five characters.'
         else:
             query = f"INSERT INTO {db_table} (username, email, password) VALUES ('{username}','{email}', '{password}')"
             response = send_query_within_response(db_name, query)
@@ -48,11 +74,17 @@ def register_user(db_name : str, db_table : str, values : list[str, str, str]):
 
 
 # Log user
-def login_user(db_name : str, db_table : str, values : list[str, str]):
-    pass
-# Log out user
-def logout_user(db_name : str, db_table : str, values : list[str, str]):
-    pass
+def login_user(db_name : str, db_table : str, values : list[str, str]) -> tuple | sql.Error:
+    username, password = values
+    query = f"SELECT * FROM {db_table} WHERE username='{username}' AND password='{password}'"
+    account = send_query_with_response(db_name, query)
+    return account
+
+# Read all todos
+def read_all_todos(db_name : str, db_table : str, user_id: int):
+    query = f"SELECT * FROM {db_table} WHERE Id = {user_id}"
+    response = send_query_with_response(db_name, query)
+    return response
 
 def connect_database(db_name : str):
     connection = sql.connect(db_name)    
