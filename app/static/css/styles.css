@@ -72,10 +72,15 @@ h1,h2,h3,h4,h5,h6 {font-family: var(--font-primary);}
     margin-bottom: 0;
 }
 
-#home { 
+#home, #login, #register, #register-thanks { 
     color:white;
     background: linear-gradient(to right, var(--clr-turquoise), var(--clr-blue));
 }
+
+#login, #register, #register-thanks {
+    height: 100vh;
+}
+
 #img-home{width: 125px;}
 .btn-home{color: var(--clr-blue-primary);}
 

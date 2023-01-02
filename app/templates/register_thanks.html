@@ -1,0 +1,16 @@
+
+{% extends 'base.html' %}
+
+{% block main %}
+<section id="register-thanks">
+    <div class="col-4 mx-auto text-white">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="text-center"> {{msg}} : {{username}}</h2>
+                <p>Welcome! Ahora puedes iniciar la sesion</p>
+                <a class="btn btn-primary d-inline-block mx-auto" href="{{url_for('login')}}">Login</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

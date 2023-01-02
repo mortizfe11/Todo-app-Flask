@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<section id="login" class="py-5 d-flex align-items-center">
+    <div class="col-4 mx-auto">
+        <h2 class="text-center">Login</h2>
+        <form action="{{ url_for('login')}}" method="post">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input class="form-control" id="email" name="email" type="text" placeholder="Enter Your Email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input class="form-control" id="password" name="password" type="password" placeholder="Enter Your Password">    
+            </div>
+            <div class="text-center">
+                <button class="btn btn-primary mx-auto" type="submit">Sign Up</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+{% endblock %}

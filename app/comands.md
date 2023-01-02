@@ -1,7 +1,8 @@
 ```
 clip-path: polygon(0 0, 0 100%, 100% 100%);
 
-
+------ requirements.txt
+pip freeze > requirements.txt
 
 ------ Flask
 virtualenv -p python3 .
