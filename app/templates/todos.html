@@ -1,19 +1,29 @@
 {% extends 'base.html' %}
 
 {% block main %}
-<section class="bg-gradient-blue">
+<section class="bg-gradient-blue p-5 justify-content-center align-items-center">
     {% if todos %}
+        <div class="row flex-wrap">
         {% for todo in todos %}
             <div class="col-4 mx-auto">
                 <div class="card post-it my-2">
                     <div class="card-body">
-                        <h5 class="card-title">Title: {{ todo[0] }}</h5>
-                        <p class="card-text"> Description: {{ todo[1]}}</p>
-                        <p class="card-text"> CurrentDate: {{todo[3]}}</p>
+                        <div class="row">
+                            <div class="d-flex col justify-content-end">
+                                <a href="{{ url_for('update_todo', id=todo[0]) }}" class="btn btn-warning p-1 ml-1"><img width="30" src="{{ url_for('static', filename='/imgs/iconos/pencil-black.png') }}"></a>
+                                <a href="{{ url_for('delete_todo', id=todo[0]) }}" class="btn btn-danger p-1 ml-1"><img width="30" src="{{ url_for('static', filename='/imgs/iconos/bin-black.png') }}"></a>
+                            </div>
+                        </div>
+                        <h5 class="card-title"><a class="card-link" href="{{url_for('get_todo', id=todo[0])}}">{{todo[0]}} - {{ todo[1] }}</a></h5>
+                        <div class="container">
+                            <p class="card-text"> Description: {{ todo[2]}}</p>
+                            <p class="card-text"> CurrentDate: {{todo[4]}}</p>
+                        </div>
                     </div>
                 </div>
             </div>
         {% endfor %}
+        </div>
     {% else %}
         <div>No hay todos</div>
     {% endif %}

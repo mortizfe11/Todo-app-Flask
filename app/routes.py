@@ -11,6 +11,14 @@ db_table = "users"
 todos_table = "todos"
 create_table_if_not_exist(db_name, [db_table, todos_table])
 
+#%%%
+type(sql.Error)
+#%%
+
+def detectErr(info):
+    if type(info) == type(sql.Error):
+        pass
+
 # Página de inicio o landing page
 @app.route("/")
 def index():
@@ -78,29 +86,61 @@ def logout():
 @app.route("/todos/")
 def get_all_todos():
     todos = read_all_todos(db_name, todos_table, session['id'])
-    print(todos)
     if todos != sql.Error:
         return render_template('todos.html', todos=todos, logged_in = session['logged_in'])
-    return 'Todos'
+    return 'Todos' #mensaje de error
 
 # Debe estar logeado -> ruta para ver UNA nota del usuario
 @app.route("/todos/<int:id>")
 def get_todo(id):
+    todo = read_todo_by_id(db_name, todos_table, id) 
+    if todo != sql.Error:
+        return render_template('todo.html', todo = todo, logged_in = session['id'])
     return f"Todo {id}"
 
 # Debe estar logeado -> ruta para crear una nota
 @app.route("/create", methods=["GET", "POST"])
 def create_todo():
-    return "Create"
+    if request.method == 'GET':
+        return render_template('create_todo.html', logged_in = session['logged_in'])
+
+    elif request.method == 'POST':
+        title = request.form['title']
+        description = request.form['description']
+        done = 0 # 0 = Pendiente, 1 = Hecho/Completado
+        can_create_todo = create_new_todo(db_name, todos_table, session['id'], [title, description, done]) 
+        # Validar si se ha creado la nota con can_create_todo
+        if can_create_todo != sql.Error:
+            msg = 'Todo create correctly'        
+            return render_template('create_thanks.html', msg=msg, logged_in = session['logged_in'])
 
 # Debe estar logeado -> ruta para actualizar una nota
-@app.route("/update/<int:id>", methods=["GET", "PUT"])
+@app.route("/update/<int:id>", methods=["GET", "POST"])
 def update_todo(id):
+    if request.method == 'GET':
+        todo = read_todo_by_id(db_name, todos_table, id)
+        #si no error:
+        return render_template("update_todo.html", todo=todo, logged_in = session['logged_in'])
+    elif request.method == 'POST':
+        title = request.form['title']
+        description = request.form['description']
+        done = int(request.form['done'])
+        update_tod = update_todo_by_id(db_name, todos_table, session['id'], id, [title, description, done]) 
+        msg = 'Update Thanks'
+        return render_template('update_thanks.html', msg=msg, logged_in = session['logged_in'])
+
     return f"Update {id}"
 
 # Debe estar logeado -> ruta para eliminar una nota
 @app.route("/delete/<int:id>", methods=["GET", "DELETE"])
 def delete_todo(id):
+    if request.method == 'GET':
+        msg = 'Delete Thanks'
+        delete_tod = delete_todo_by_id(db_name, todos_table, session['id'], id)
+        #si no error
+        msg = 'Delete Thanks'
+        return render_template('delete_thanks.html', msg=msg, logged_in = session['id'])
+
     return f"Delete {id}"
 
 # Página de error

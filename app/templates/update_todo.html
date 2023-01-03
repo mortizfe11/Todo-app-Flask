@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+<section id="create_todo" class="bg-gradient-blue py-5 d-flex align-items-start">
+    <div class="col-6 mx-auto">
+        <h2 class="text-center">Update Note</h2>
+        <div class="container col-10 mx-auto justify-content-center">
+            <form action="{{ url_for('update_todo', id=todo[0]) }}" method="post">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Title">
+                    <p><small>{{ todo[1] }}</small></p>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" class="form-control" id="description" name="description" placeholder="Description">
+                    <p><small>{{ todo[2] }}</small></p>
+                </div>
+                <div class="form-group">
+                    <label for="done">Description</label>
+                    <select class="form-control" name="done" id="done">
+                        <option value="0" selected>Pendiente</option>
+                        <option value="1">Complete</option>
+                    </select>
+                    <p><small>{{ todo[4] }}</small></p>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary mx-auto">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

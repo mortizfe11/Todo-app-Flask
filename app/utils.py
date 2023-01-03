@@ -82,9 +82,31 @@ def login_user(db_name : str, db_table : str, values : list[str, str]) -> tuple 
 
 # Read all todos
 def read_all_todos(db_name : str, db_table : str, user_id: int):
-    query = f"SELECT * FROM {db_table} WHERE Id = {user_id}"
+    query = f"SELECT * FROM {db_table} WHERE UserId = {user_id}"
+    response = send_query_with_response(db_name, query, True)
+    return response
+
+def read_todo_by_id(db_name : str, db_table : str, id: int):
+    query = f"SELECT * FROM {db_table} WHERE id = {id}"
     response = send_query_with_response(db_name, query)
     return response
+
+def create_new_todo(db_name : str, db_table : str, user_id : int, values : list):
+    title, desc, done = values
+    query = f"INSERT INTO {db_table} (Title, Description, Done, UserId) VALUES ('{title}', '{desc}', {done}, {user_id})"
+    flag = send_query_within_response(db_name, query)
+    return flag
+
+def update_todo_by_id(db_name : str, db_table : str, user_id : int, todo_id: int, values : list):
+    title, desc, done = values
+    query = f"UPDATE {db_table} SET Title='{title}', Description='{desc}', Done={done} WHERE UserId={user_id} AND Id={todo_id}"
+    flag = send_query_within_response(db_name, query)
+    return flag
+
+def delete_todo_by_id(db_name : str, db_table : str, user_id : int, todo_id: int):
+    query = f"DELETE FROM {db_table} WHERE Id={todo_id} AND userId = {user_id}"
+    flag = send_query_within_response(db_name, query)
+    return flag
 
 def connect_database(db_name : str):
     connection = sql.connect(db_name)    
