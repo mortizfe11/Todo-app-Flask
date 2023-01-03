@@ -112,7 +112,7 @@ def create_todo():
         # Validar si se ha creado la nota con can_create_todo
         if can_create_todo != sql.Error:
             msg = 'Todo create correctly'        
-            return render_template('create_thanks.html', msg=msg, logged_in = session['logged_in'])
+            return render_template('thanks.html', msg=msg, logged_in = session['logged_in'])
 
 # Debe estar logeado -> ruta para actualizar una nota
 @app.route("/update/<int:id>", methods=["GET", "POST"])
@@ -127,7 +127,7 @@ def update_todo(id):
         done = int(request.form['done'])
         update_tod = update_todo_by_id(db_name, todos_table, session['id'], id, [title, description, done]) 
         msg = 'Update Thanks'
-        return render_template('update_thanks.html', msg=msg, logged_in = session['logged_in'])
+        return render_template('thanks.html', msg=msg, logged_in = session['logged_in'])
 
     return f"Update {id}"
 
@@ -139,7 +139,7 @@ def delete_todo(id):
         delete_tod = delete_todo_by_id(db_name, todos_table, session['id'], id)
         #si no error
         msg = 'Delete Thanks'
-        return render_template('delete_thanks.html', msg=msg, logged_in = session['id'])
+        return render_template('thanks.html', msg=msg, logged_in = session['id'])
 
     return f"Delete {id}"
 
