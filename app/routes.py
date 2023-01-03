@@ -15,8 +15,8 @@ create_table_if_not_exist(db_name, [db_table, todos_table])
 #%%
 
 def detectErr(info):
-    if type(info) == type(sql.Error):
-        pass
+    if info == sql.Error or info == sql.OperationalError:
+        return render_template('404.html', msg=info, logged_in = session['logged_in'])
 
 # Página de inicio o landing page
 @app.route("/")
@@ -33,7 +33,8 @@ def login():
         username = request.form['username']
         password = request.form['password']
         account = login_user(db_name, db_table, [username, password])
-        if account and account != sql.Error:
+        detectErr(account)
+        if account:
             session['logged_in'] = True
             session['id'] = account[0]
             session['username'] = account[-1]
@@ -55,6 +56,7 @@ def register():
         email = request.form['email']
         password = request.form['password']        
         can_register_user , msg= register_user(db_name, db_table, [username, email, password])
+        detectErr(can_register_user)
         if can_register_user:
             return render_template('register_thanks.html', username=username, msg=msg)
         else:
@@ -85,17 +87,15 @@ def logout():
 @app.route("/todos/")
 def get_all_todos():
     todos = read_all_todos(db_name, todos_table, session['id'])
-    if todos != sql.Error:
-        return render_template('todos.html', todos=todos, logged_in = session['logged_in'])
-    return 'Todos' #mensaje de error
+    detectErr(todos)
+    return render_template('todos.html', todos=todos, logged_in = session['logged_in'])
 
 # Debe estar logeado -> ruta para ver UNA nota del usuario
 @app.route("/todos/<int:id>")
 def get_todo(id):
     todo = read_todo_by_id(db_name, todos_table, id) 
-    if todo != sql.Error:
-        return render_template('todo.html', todo = todo, logged_in = session['id'])
-    return f"Todo {id}"
+    detectErr(todo)
+    return render_template('todo.html', todo = todo, logged_in = session['id'])
 
 # Debe estar logeado -> ruta para crear una nota
 @app.route("/create", methods=["GET", "POST"])
@@ -109,22 +109,23 @@ def create_todo():
         done = 0 # 0 = Pendiente, 1 = Hecho/Completado
         can_create_todo = create_new_todo(db_name, todos_table, session['id'], [title, description, done]) 
         # Validar si se ha creado la nota con can_create_todo
-        if can_create_todo != sql.Error:
-            msg = 'Todo create correctly'        
-            return render_template('thanks.html', msg=msg, logged_in = session['logged_in'])
+        detectErr(can_create_todo)
+        msg = 'Todo create correctly'        
+        return render_template('thanks.html', msg=msg, logged_in = session['logged_in'])
 
 # Debe estar logeado -> ruta para actualizar una nota
 @app.route("/update/<int:id>", methods=["GET", "POST"])
 def update_todo(id):
     if request.method == 'GET':
         todo = read_todo_by_id(db_name, todos_table, id)
-        #si no error:
+        detectErr(todo)
         return render_template("update_todo.html", todo=todo, logged_in = session['logged_in'])
     elif request.method == 'POST':
         title = request.form['title']
         description = request.form['description']
         done = int(request.form['done'])
         update_tod = update_todo_by_id(db_name, todos_table, session['id'], id, [title, description, done]) 
+        detectErr(update_tod)
         msg = 'Update Thanks'
         return render_template('thanks.html', msg=msg, logged_in = session['logged_in'])
 
@@ -136,7 +137,7 @@ def delete_todo(id):
     if request.method == 'GET':
         msg = 'Delete Thanks'
         delete_tod = delete_todo_by_id(db_name, todos_table, session['id'], id)
-        #si no error
+        detectErr(delete_tod)
         msg = 'Delete Thanks'
         return render_template('thanks.html', msg=msg, logged_in = session['id'])
 
