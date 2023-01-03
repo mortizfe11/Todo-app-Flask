@@ -12,7 +12,6 @@ todos_table = "todos"
 create_table_if_not_exist(db_name, [db_table, todos_table])
 
 #%%%
-type(sql.Error)
 #%%
 
 def detectErr(info):

@@ -1,29 +1,47 @@
 #%%
 import sqlite3 as sql
 import re
+from datetime import datetime, timedelta
+
+
+def getDueDate(numDays):
+    format_date = "%Y-%m-%d %H:%M:%S"
+    return (datetime.now() + timedelta(days=numDays)).strftime(format_date)
+
+def init_todos_for_users_DB(db_name, users_table, todos_table):
+    query = f"SELECT Id FROM {users_table}"
+    users = send_query_with_response(db_name, query, True)
+    for userId in users:
+        query = f"SELECT COUNT(*) FROM {todos_table} WHERE UserId = {userId[0]}"
+        num_todos = send_query_with_response(db_name, query)[0]
+        if num_todos < 5:
+            query = f"INSERT INTO {todos_table} (Title, Description, Done, DueDate, UserId) VALUES ('title11', 'description11', 0, '{getDueDate(numDays=7)}',1)"
+            send_query_within_response(db_name, query)
+    
 
 # connect to qa_database.sq (database will be created, if not exist)
 def create_table_if_not_exist(db_name :str, tables : list[str]):
     try:
-        db_table, todos_table = tables
+        users_table, todos_table = tables
 
         con = sql.connect(db_name)
         c = con.cursor()
-        c.execute(f"CREATE TABLE IF NOT EXISTS {db_table} (Id INTEGER PRIMARY KEY AUTOINCREMENT, Email TEXT, Password TEXT, Username TEXT)")
-        #con.commit()
-        #c.execute(f"CREATE TABLE IF NOT EXISTS {todos_table} (Id INTEGER PRIMARY KEY AUTOINCREMENT, Title TEXT, Description TEXT, Done INTEGER, CreateAt DATETIME DEFAULT CURRENT_TIMESTAMP, ModifyAt DATETIME DEFAULT CURRENT_TIMESTAMP, DueDate DATETIME DEFAULT NULL, UserId INTEGER, FOREIGN KEY(UserId) REFERENCE {db_table}(Id))")
-        c.execute("""CREATE TABLE IF NOT EXISTS todos (
+        c.execute(f"CREATE TABLE IF NOT EXISTS {users_table} (Id INTEGER PRIMARY KEY AUTOINCREMENT, Email TEXT, Password TEXT, Username TEXT)")       
+
+        current_date = getDueDate(numDays=7)
+        c.execute(f"""CREATE TABLE IF NOT EXISTS {todos_table} (
             Id INTEGER PRIMARY KEY AUTOINCREMENT,
             Title TEXT,
             Description TEXT,
             Done INTEGER,
             CreateAt DATETIME DEFAULT CURRENT_TIMESTAMP,
             ModifiedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-            DueDate DATETIME DEFAULT CURRENT_TIMESTAMP,
-            UserId INTEGER,
-            FOREIGN KEY(UserId) REFERENCES users(Id)
-            )""")
-
+            DueDate DATETIME DEFAULT '{current_date}',
+            UserId INTEGER,FOREIGN KEY(UserId) REFERENCES {users_table}(Id))""")
+           
+        init_todos_for_users_DB(db_name, users_table, todos_table)
+        #c.execute(f"""CREATE TABLE IF NOT EXISTS {todos_table} (Id INTEGER PRIMARY KEY AUTOINCREMENT,Title TEXT,Description TEXT,Done INTEGER,CreateAt DATETIME DEFAULT CURRENT_TIMESTAMP,ModifiedAt DATETIME DEFAULT CURRENT_TIMESTAMP,DueDate DATETIME DEFAULT CURRENT_TIMESTAMP,UserId INTEGER,FOREIGN KEY(UserId) REFERENCES {users_table}(Id))""")
+          
         #c.execute(f"INSERT INTO {todos_table} (Title, Description, Done, UserId) VALUES ('title11', 'description11', 0, 1)")
         #c.execute(f"INSERT INTO {todos_table} (Title, Description, Done, UserId) VALUES ('title21', 'description21', 0, 1)")
         #c.execute(f"INSERT INTO {todos_table} (Title, Description, Done, UserId) VALUES ('title31', 'description31', 0, 1)")
@@ -93,7 +111,8 @@ def read_todo_by_id(db_name : str, db_table : str, id: int):
 
 def create_new_todo(db_name : str, db_table : str, user_id : int, values : list):
     title, desc, done = values
-    query = f"INSERT INTO {db_table} (Title, Description, Done, UserId) VALUES ('{title}', '{desc}', {done}, {user_id})"
+    due_time = getDueDate(numDays=7)
+    query = f"INSERT INTO {db_table} (Title, Description, Done, DueDate, UserId) VALUES ('{title}', '{desc}', {done}, '{due_time}', {user_id})"
     flag = send_query_within_response(db_name, query)
     return flag
 

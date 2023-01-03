@@ -13,12 +13,13 @@
                             <a href="{{ url_for('delete_todo', id=todo[0]) }}" class="btn btn-danger p-1 ml-1"><img width="30" src="{{ url_for('static', filename='/imgs/iconos/bin-black.png') }}"></a>
                         </div>
                     </div>
-                    <h5 class="card-title"><a class="card-link" href="{{url_for('get_todo', id=todo[0])}}">{{todo[0]}} - {{ todo[1] }}</a></h5>
+                    <h5 class="card-title">{{ todo[1] }}</h5>
                     <div class="container">
-                        <p class="card-text">Descripción: {{ todo[2] }}</p>
-                        <p class="card-text">Creado: {{ todo[4] }}</p>
-                        <p class="card-text">Actualizado: {{ todo[5] }}</p>
-                        <p class="card-text">Estado: {% if todo[3] == 0 %} Pendiente {% else %} Completado {% endif %}</p>
+                        <p class="card-text">Description: {{ todo[2] }}</p>
+                        <p class="card-text">Create: {{ todo[4] }}</p>
+                        <p class="card-text">Modified: {{ todo[5] }}</p>
+                        <p class="card-text">Closed: {{ todo[6] }}</p>
+                        <p class="card-text">State: {% if todo[3] == 0 %} Pendiente {% else %} Completado {% endif %}</p>
                     </div>
                 </div>
             </div>
